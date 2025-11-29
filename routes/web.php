@@ -3,7 +3,9 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\SellerStatusController;    
+use App\Http\Controllers\SellerStatusController; 
+use App\Http\Controllers\AdminController;   
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,11 +33,23 @@ Route::middleware(['auth'])->group(function () {
 
 // route khusus admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    // dashboard utama (statistik singkat, verifikasi seller)
     Route::get('/dashboard', function() {
         return view('dashboard.admin.home');
     })->name('dashboard');
 
-    // space yg nantinya menambahkan: user management, category management
+    // action: verifikai seller
+    Route::patch('/seller/{id}/approve', [AdminController::class, 'approveSeller'])->name('seller.approve');
+    Route::patch('/seller/{id}/reject', [AdminController::class, 'rejectSeller'])->name('seller.reject');
+
+    // manajemen user
+    Route::get('/users', [AdminController::class, 'user'])->name('users');
+    Route::delete('/user/{id}', [AdminController::class, 'destroyUser'])->name('user.destroy');
+
+    // manajemen kategori
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 });
 
 // route khusus seller (active only)
