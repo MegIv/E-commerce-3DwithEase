@@ -22,8 +22,14 @@ class ShopController extends Controller
 
     public function show($id)
     {
-        $product = Product::with('store', 'category')->findOrFail($id);
-        return view('shop.show', compact('product'));
+        // Eager load reviews dan user pembuat review
+        $product = Product::with(['store', 'category', 'reviews.user'])->findOrFail($id);
+        
+        // Hitung rata-rata rating
+        $avgRating = $product->reviews->avg('rating') ?? 0;
+        $reviewCount = $product->reviews->count();
+
+        return view('shop.show', compact('product', 'avgRating', 'reviewCount'));
     }
 
 }
