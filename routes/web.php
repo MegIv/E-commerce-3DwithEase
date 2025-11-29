@@ -6,8 +6,10 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellerStatusController; 
 use App\Http\Controllers\AdminController;   
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\StoreController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -53,18 +55,31 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 // route khusus seller (active only)
-// Note: kita butuh middleware 'seller' yg mengecek role=seller dan status=active
+    // Note: kita butuh middleware 'seller' yg mengecek role=seller dan status=active
 Route::middleware(['auth'])->prefix('seller')->name('seller.')->group(function () {
-    Route::get('/dashboard', function() {
-        // cek status manual sementara sebelum buat middleware khusus
+
+    // cek status middleware (inline)
+    Route::middleware(function ($request, $next) {
         if (Auth::user()->role !== 'seller' || Auth::user()->status !== 'active') {
             return redirect()->route('seller.status');
         }
-        return view('dashboard.seller.home');
+        return $next($request);
+    })->group(function () {
+
+    // dashboard
+    Route::get('/dashboard', function() {
+        $productCount = Auth::user()->store->products()->count();
+        // nanti tambah orderCount di tahap selanjutnya
+        return view('dashboard.seller.home', compact('productCount'));
     })->name('dashboard');
 
-    // Product Resource sementara
+    // Product management (resource)
     Route::resource('products', ProductController::class);
+
+    // Store management 
+    Route::get('/store/edit', [StoreController::class, 'edit'])->name('store.edit');
+    Route::patch('/store/update', [StoreController::class, 'update'])->name('store.update');
+    });
 });
 
 require __DIR__.'/auth.php';
