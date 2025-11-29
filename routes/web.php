@@ -10,6 +10,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SellerOrderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,8 +46,13 @@ Route::middleware(['auth'])->prefix('seller')->name('seller.')->group(function (
 
         // dashboard
         Route::get('/dashboard', function() {
-            $productCount = Auth::user()->store->products()->count();
-            // nanti tambah orderCount di tahap selanjutnya
+            $store = Auth::user()->store;
+            $productCount = $store->products()->count();
+            // menghitung order yang masuk ke toko ini
+            $orderCount = \App\Models\Order::whereHas('items.product', function ($q) use ($store) {
+                $q->where('store_id', $store->id);
+            })->count();
+
             return view('dashboard.seller.home', compact('productCount'));
         })->name('dashboard');
 
@@ -57,6 +63,11 @@ Route::middleware(['auth'])->prefix('seller')->name('seller.')->group(function (
         Route::get('/store/edit', [StoreController::class, 'edit'])->name('store.edit');
         Route::patch('/store/update', [StoreController::class, 'update'])->name('store.update');
         
+
+        // Order management
+        Route::get('/orders', [SellerOrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}', [SellerOrderController::class, 'show'])->name('orders.show');
+        Route::patch('/orders/{order}', [SellerOrderController::class, 'update'])->name('orders.update');
     });
 });
 
