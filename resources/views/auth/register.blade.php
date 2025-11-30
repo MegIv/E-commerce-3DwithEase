@@ -44,7 +44,6 @@
             <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>
 
-
         <!-- Store Name (Visible only for Sellers) -->
         <div class="mt-4" x-show="role === 'seller'" x-transition>
             <x-input-label for="store_name" :value="__('Store Name')" />

@@ -75,9 +75,7 @@ Route::middleware(['auth'])->prefix('seller')->name('seller.')->group(function (
 // Route khusus admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // dashboard utama (statistik singkat, verifikasi seller)
-    Route::get('/dashboard', function() {
-        return view('dashboard.admin.home');
-    })->name('dashboard');
+    Route::get('/dashboard',[AdminController::class, 'index'])->name('dashboard');
 
     // action: verifikai seller
     Route::patch('/seller/{id}/approve', [AdminController::class, 'approveSeller'])->name('seller.approve');

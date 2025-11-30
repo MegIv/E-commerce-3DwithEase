@@ -11,7 +11,7 @@
             </div>
         </div>
     </x-slot>
-    
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
@@ -34,45 +34,45 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     <h3 class="text-lg font-bold text-gray-900 mb-4">Pending Seller Approvals</h3>
-                    
+
                     @if($pendingSellers->isEmpty())
-                        <p class="text-gray-500 text-sm italic">No pending seller applications at the moment.</p>
+                    <p class="text-gray-500 text-sm italic">No pending seller applications at the moment.</p>
                     @else
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left">
-                                <thead class="text-gray-500 uppercase bg-gray-50">
-                                    <tr>
-                                        <th class="px-4 py-3">Seller Name</th>
-                                        <th class="px-4 py-3">Store Name</th>
-                                        <th class="px-4 py-3">Registered Date</th>
-                                        <th class="px-4 py-3 text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($pendingSellers as $seller)
-                                    <tr class="border-b">
-                                        <td class="px-4 py-3 font-medium text-gray-900">{{ $seller->name }}<br><span class="text-xs text-gray-500">{{ $seller->email }}</span></td>
-                                        <td class="px-4 py-3">{{ $seller->store->name ?? 'N/A' }}</td>
-                                        <td class="px-4 py-3">{{ $seller->created_at->format('d M Y') }}</td>
-                                        <td class="px-4 py-3 text-right flex justify-end gap-2">
-                                            <form action="{{ route('admin.seller.approve', $seller->id) }}" method="POST">
-                                                @csrf @method('PATCH')
-                                                <button type="submit" class="bg-green-100 text-green-700 px-3 py-1 rounded hover:bg-green-200 text-xs font-bold transition">
-                                                    Approve
-                                                </button>
-                                            </form>
-                                            <form action="{{ route('admin.seller.reject', $seller->id) }}" method="POST">
-                                                @csrf @method('PATCH')
-                                                <button type="submit" class="bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200 text-xs font-bold transition">
-                                                    Reject
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-gray-500 uppercase bg-gray-50">
+                                <tr>
+                                    <th class="px-4 py-3">Seller Name</th>
+                                    <th class="px-4 py-3">Store Name</th>
+                                    <th class="px-4 py-3">Registered Date</th>
+                                    <th class="px-4 py-3 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($pendingSellers as $seller)
+                                <tr class="border-b">
+                                    <td class="px-4 py-3 font-medium text-gray-900">{{ $seller->name }}<br><span class="text-xs text-gray-500">{{ $seller->email }}</span></td>
+                                    <td class="px-4 py-3">{{ $seller->store->name ?? 'N/A' }}</td>
+                                    <td class="px-4 py-3">{{ $seller->created_at->format('d M Y') }}</td>
+                                    <td class="px-4 py-3 text-right flex justify-end gap-2">
+                                        <form action="{{ route('admin.seller.approve', $seller->id) }}" method="POST">
+                                            @csrf @method('PATCH')
+                                            <button type="submit" class="bg-green-100 text-green-700 px-3 py-1 rounded hover:bg-green-200 text-xs font-bold transition">
+                                                Approve
+                                            </button>
+                                        </form>
+                                        <form action="{{ route('admin.seller.reject', $seller->id) }}" method="POST">
+                                            @csrf @method('PATCH')
+                                            <button type="submit" class="bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200 text-xs font-bold transition">
+                                                Reject
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     @endif
                 </div>
             </div>
