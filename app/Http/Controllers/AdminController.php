@@ -57,13 +57,13 @@ class AdminController extends Controller
     public function destroyUser($id)
     {
         // jangan hapus diri sendiri (admin)
-        if ($id === Auth::id()) {
-            dd('saya admin');
+        if (intval($id) === Auth::id()) {
             return redirect()->back()->with('error', 'You cannot delete your own account.');
         }
 
         $user = User::findOrFail($id);
         $user->delete();
+        
         return redirect()->back()->with('success', 'User deleted successfully.');
     }
 }

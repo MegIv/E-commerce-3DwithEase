@@ -107,9 +107,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
-// Update Dashboard User untuk menampilkan Order History
-Route::get('/dashboard', [HomeController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
 require __DIR__.'/auth.php';

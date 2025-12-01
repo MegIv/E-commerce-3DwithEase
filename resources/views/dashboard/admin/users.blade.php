@@ -50,10 +50,10 @@
                                 </td>
                                 <td class="px-4 py-3 text-right">
                                     @if($user->role !== 'admin')
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure? This action cannot be undone.');">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:underline text-xs">Delete</button>
-                                        </form>
+                                        <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Are you sure? This action cannot be undone.');">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="text-red-500 hover:underline text-xs">Delete</button>
+                                    </form>
                                     @else
                                         <span class="text-gray-400 text-xs">Protected</span>
                                     @endif
