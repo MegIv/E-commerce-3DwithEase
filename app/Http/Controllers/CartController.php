@@ -19,30 +19,42 @@ class CartController extends Controller
     {
         $product = Product::findOrFail($productId);
         
-        // Validasi stok sederhana
-        if ($product->stock < 1) {
-            return back()->with('error', 'Product out of stock.');
+        // 1. Ambil input quantity dari form frontend
+        // Jika tidak ada input (misal dari halaman lain), default-nya 1
+        $quantityToAdd = (int) $request->input('quantity', 1);
+
+        // Validasi input minimal 1
+        if ($quantityToAdd < 1) {
+            return back()->with('error', 'Quantity must be at least 1.');
+        }
+
+        // 2. Cek stok awal produk vs jumlah yang diminta saat ini
+        if ($product->stock < $quantityToAdd) {
+            return back()->with('error', 'Insufficient stock.');
         }
 
         $cart = Cart::where('user_id', Auth::id())
                     ->where('product_id', $productId)
                     ->first();
 
-        // Hitung jumlah yang akan ada di keranjang jika ditambah 1
-        $currentQty = $cart ? $cart->quantity : 0;
-        
-        // Validasi: Jika (qty sekarang + 1) lebih besar dari stok produk
-        if (($currentQty + 1) > $product->stock) {
-            return back()->with('error', 'Product stock limit reached.');
+        // Hitung total nanti (Barang di Keranjang + Barang yg mau ditambah)
+        $currentQtyInCart = $cart ? $cart->quantity : 0;
+        $finalQty = $currentQtyInCart + $quantityToAdd;
+
+        // 3. Validasi Akhir: Pastikan total gabungan tidak melebihi stok
+        if ($finalQty > $product->stock) {
+            return back()->with('error', "Stock limit reached. You already have {$currentQtyInCart} in cart.");
         }
 
         if ($cart) {
-            $cart->increment('quantity');
+            // Update: Tambahkan sesuai jumlah input
+            $cart->increment('quantity', $quantityToAdd);
         } else {
+            // Baru: Masukkan sesuai jumlah input
             Cart::create([
                 'user_id' => Auth::id(),
                 'product_id' => $productId,
-                'quantity' => 1
+                'quantity' => $quantityToAdd
             ]);
         }
 

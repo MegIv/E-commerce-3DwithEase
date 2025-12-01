@@ -66,7 +66,7 @@
                                 <p>{{ $product->description ?? 'No description available.' }}</p>
                             </div>
 
-                            <div class="space-y-4">
+                            <div class="space-y-6">
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="font-bold text-gray-700">Availability:</span>
                                     @if($product->stock > 0)
@@ -78,16 +78,28 @@
 
                                 <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" 
-                                        class="w-full py-4 px-6 rounded-lg font-bold text-lg shadow-md transition transform active:scale-95 flex justify-center items-center gap-2
-                                        {{ $product->stock > 0 ? 'bg-gray-900 text-white hover:bg-[#FF6B00]' : 'bg-gray-300 text-gray-500 cursor-not-allowed' }}"
-                                        {{ $product->stock < 1 ? 'disabled' : '' }}>
-                                        
-                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                        {{ $product->stock > 0 ? 'Add to Cart' : 'Sold Out' }}
-                                    </button>
+                                    
+                                    <div class="flex flex-col sm:flex-row gap-4">
+                                        <div class="flex items-center border border-gray-300 rounded-lg w-max" x-data="{ qty: 1, max: {{ $product->stock }} }">
+                                            <button type="button" onclick="decrement()" class="px-4 py-3 text-gray-600 hover:bg-gray-100 border-r border-gray-300 font-bold text-lg disabled:opacity-50" id="btn-minus">-</button>
+                                            
+                                            <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ $product->stock }}" 
+                                                class="w-16 text-center border-none focus:ring-0 font-bold text-gray-900" readonly>
+                                            
+                                            <button type="button" onclick="increment()" class="px-4 py-3 text-gray-600 hover:bg-gray-100 border-l border-gray-300 font-bold text-lg disabled:opacity-50" id="btn-plus" {{ $product->stock <= 1 ? 'disabled' : '' }}>+</button>
+                                        </div>
+
+                                        <button type="submit" 
+                                            class="flex-1 py-3 px-6 rounded-lg font-bold text-lg shadow-md transition transform active:scale-95 flex justify-center items-center gap-2
+                                            {{ $product->stock > 0 ? 'bg-gray-900 text-white hover:bg-[#FF6B00]' : 'bg-gray-300 text-gray-500 cursor-not-allowed' }}"
+                                            {{ $product->stock < 1 ? 'disabled' : '' }}>
+                                            
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                            {{ $product->stock > 0 ? 'Add to Cart' : 'Sold Out' }}
+                                        </button>
+                                    </div>
                                 </form>
-                                <p class="text-xs text-gray-400 text-center mt-2">Secure checkout guaranteed.</p>
+                                <p class="text-xs text-gray-400 mt-2">Secure checkout guaranteed.</p>
                             </div>
                         </div>
                     </div>
@@ -130,4 +142,36 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function increment() {
+            let input = document.getElementById('quantity');
+            let max = parseInt(input.getAttribute('max'));
+            let val = parseInt(input.value);
+            
+            if (val < max) {
+                input.value = val + 1;
+            }
+            updateButtons();
+        }
+
+        function decrement() {
+            let input = document.getElementById('quantity');
+            let val = parseInt(input.value);
+            
+            if (val > 1) {
+                input.value = val - 1;
+            }
+            updateButtons();
+        }
+
+        function updateButtons() {
+            let input = document.getElementById('quantity');
+            let max = parseInt(input.getAttribute('max'));
+            let val = parseInt(input.value);
+            
+            document.getElementById('btn-minus').disabled = (val <= 1);
+            document.getElementById('btn-plus').disabled = (val >= max);
+        }
+    </script>
 </x-app-layout>
