@@ -64,7 +64,14 @@ Route::middleware(['auth'])->prefix('seller')->name('seller.')->group(function (
             // Menghitung order yang masuk ke toko ini
             $orderCount = $store->orders()->count();
 
-            return view('dashboard.seller.home', compact('productCount', 'orderCount'));
+            // mengambil 5 review terakhir
+            $recentReviews = $store->reviews()
+            ->with(['user', 'product']) // Load data user dan produk biar cepat
+            ->latest()                  // Urutkan dari yang paling baru
+            ->take(5)                   // Ambil 5 saja untuk preview
+            ->get();
+
+            return view('dashboard.seller.home', compact('productCount', 'orderCount', 'recentReviews'));
         })->name('dashboard');
 
         // Product management (resource)
@@ -74,11 +81,12 @@ Route::middleware(['auth'])->prefix('seller')->name('seller.')->group(function (
         Route::get('/store/edit', [StoreController::class, 'edit'])->name('store.edit');
         Route::patch('/store/update', [StoreController::class, 'update'])->name('store.update');
 
-
         // Order management
         Route::get('/orders', [SellerOrderController::class, 'index'])->name('orders.index');
         Route::get('/orders/{order}', [SellerOrderController::class, 'show'])->name('orders.show');
         Route::patch('/orders/{order}', [SellerOrderController::class, 'update'])->name('orders.update');
+
+        Route::get('/reviews', [StoreController::class, 'reviews'])->name('reviews.index');
     });
 });
 

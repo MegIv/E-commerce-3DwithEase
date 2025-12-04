@@ -44,4 +44,23 @@ class StoreController extends Controller
         $store->update($data);
         return redirect()->route('seller.store.edit')->with('success', 'Store updated successfully.');
     }
+
+    public function reviews()
+    {
+        // Ambil toko milik user yang sedang login
+        $store = Auth::user()->store;
+
+        // Jika user belum punya toko
+        if (!$store) {
+            return redirect()->route('dashboard')->with('error', 'Anda belum memiliki toko.');
+        }
+
+        // Ambil review dari produk-produk toko tersebut
+        $reviews = $store->reviews()
+            ->with(['user', 'product'])
+            ->latest()
+            ->paginate(10);
+
+        return view('dashboard.seller.reviews.index', compact('reviews'));
+    }
 }

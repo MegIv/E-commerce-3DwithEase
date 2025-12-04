@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class ShopController extends Controller
 {
@@ -11,15 +12,25 @@ class ShopController extends Controller
     {
         $query = Product::query();
 
-        // Fitur Search sederhana
-        if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('description', 'like', '%' . $request->search . '%');
+        // logika search
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('description', 'like', '%'. $request->search. '%');
+            });
+        }
+
+        // Logika Filter Kategori
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
         }
 
         $products = $query->with('store')->latest()->paginate(12);
 
-        return view('shop.index', compact('products'));
+        // 3. Ambil semua kategori untuk isi dropdown filter
+        $categories = Category::all();
+
+        return view('dashboard.user.home', compact('products', 'categories'));
     }
 
     public function show($id)

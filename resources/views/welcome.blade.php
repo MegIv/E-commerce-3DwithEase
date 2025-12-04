@@ -53,11 +53,12 @@
     <header class="max-w-7xl mx-auto px-4 sm:px-8 pt-12 pb-20">
         <div class="max-w-4xl">
             <h1 class="text-5xl sm:text-7xl font-medium tracking-tight leading-[1.1] mb-6">
-                INDUSTRIAL <br>
+                YOUR <br>
                 <span class="text-orange-brand font-normal italic">3D PRINTING</span> SOLUTIONS
             </h1>
             <p class="text-gray-500 max-w-xl text-lg mb-8">
-                Platfrom 3D-Print menawarkan solusi manufaktur yang dapat di-kostumisasi sesuai kebutuhan anda dari Konsumen hingga Industri.
+                3DwithEase menawarkan solusi melalui cetakkan 3D berkualitas dan customize-able sesuai yang anda butuhkan. 
+                <!-- Platfrom 3D-Print menawarkan solusi manufaktur yang dapat di-kostumisasi sesuai kebutuhan anda dari Konsumen hingga Industri. -->
             </p>
             
             <div class="flex gap-4">
@@ -196,7 +197,7 @@
             <div class="mt-24">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-light uppercase tracking-wide">Kapasitas kami di</h2>
-                    <h2 class="text-4xl font-bold text-orange-brand mt-1">SKALA & MESIN</h2>
+                    <h2 class="text-4xl font-bold text-orange-brand mt-1">DESIGNING & MESIN</h2>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-gray-800">
@@ -244,16 +245,16 @@
 
                     <div class="p-8 hover:bg-gray-900 transition">
                         <div class="flex justify-between items-start mb-8">
-                            <h3 class="text-xl font-semibold">Skala </h3>
+                            <h3 class="text-xl font-semibold">Design avaibility </h3>
                             <div class="w-1 h-8 bg-orange-brand"></div>
                         </div>
                         <ul class="space-y-4 text-sm text-gray-400">
                             <li class="flex justify-between">
-                                <span>Industri</span>
+                                <span>Skala Industri</span>
                                 <span class="text-white">100+</span>
                             </li>
                             <li class="flex justify-between">
-                                <span>Konsumen</span>
+                                <span>Skala Konsumen</span>
                                 <span class="text-white">300+</span>
                             </li>
                         </ul>
@@ -293,7 +294,7 @@
             </div>
 
             <div class="relative h-[500px] w-full bg-gray-100 rounded-lg overflow-hidden">
-                <img src="https://plus.unsplash.com/premium_photo-1715876681035-4d8b010bab0a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjF8fDNEJTIwcHJpbnRpbmd8ZW58MHx8MHx8fDA%3D" class="w-full h-full object-cover" alt="Industrial Machine">
+                <img src="https://plus.unsplash.com/premium_photo-1715876681035-4d8b010bab0a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjF8fDNEJTIwcHJpbnRpbmd8ZW58MHx8MHx8fDA%3Ds" class="w-full h-full object-cover" alt="Industrial Machine">
                 <div class="absolute top-0 right-0 w-24 h-24 bg-orange-brand/20"></div>
                 <div class="absolute bottom-0 left-0 w-32 h-32 bg-gray-900/10"></div>
             </div>

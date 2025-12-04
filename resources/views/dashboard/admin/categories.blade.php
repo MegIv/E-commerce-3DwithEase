@@ -4,11 +4,11 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Category Management') }}
             </h2>
-            <div class="flex gap-4 text-sm font-medium">
+            <!-- <div class="flex gap-4 text-sm font-medium">
                 <a href="{{ route('admin.dashboard') }}" class="text-gray-500 hover:text-[#FF6B00] transition">Overview & Approvals</a>
                 <a href="{{ route('admin.users') }}" class="text-gray-500 hover:text-[#FF6B00] transition">All Users</a>
                 <a href="{{ route('admin.categories') }}" class="text-[#FF6B00] border-b-2 border-[#FF6B00]">Categories</a>
-            </div>
+            </div> -->
         </div>
     </x-slot>
 

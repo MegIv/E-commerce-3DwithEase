@@ -46,14 +46,21 @@
                         <x-nav-link href="{{ route('seller.products.index') }}" class="text-gray-500 hover:text-[#FF6B00] transition">My Products</x-nav-link>
                         <x-nav-link href="{{ route('seller.orders.index') }}" class="text-x-nav-link -500 hover:text-[#FF6B00] transition">Orders</x-nav-link>
                         <x-nav-link href="{{ route('seller.store.edit') }}" class="text-gray-500 hoverx-nav-link text-[#FF6B00] transition">Store Settings</x-nav-link>
-                        {{-- Link ke manajemen produk/order seller bisa ditambah disini --}}
+                        <x-nav-link :href="route('seller.reviews.index')" :active="request()->routeIs('seller.reviews.index')">
+                            {{ __('Review/Rating') }}
+                        </x-nav-link>
                     @endif
 
                     @if(Auth::user()->role === 'admin')
                         {{-- Menu Khusus Admin --}}
                         <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                            {{ __('Admin Panel') }}
+                            {{ __('Overview & Approvals') }}
                         </x-nav-link>
+                        <!-- <div class="flex gap-4 text-sm font-medium"> -->
+                            <!-- <x-nav-link href="{{ route('admin.dashboard') }}" class="text-gray-500 hover:text-[#FF6B00] transition">Overview & Approvals</x-nav-link> -->
+                            <x-nav-link href="{{ route('admin.users') }}" class="text-gray-500 hover:text-[#FF6B00] transition">All Users</x-nav-link>
+                            <x-nav-link href="{{ route('admin.categories') }}" class="text-[#FF6B00] border-b-2 border-[#FF6B00]">Categories</x-nav-link>
+                        <!-- </div> -->
                     @endif
                 </div>
             </div>
