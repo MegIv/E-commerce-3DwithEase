@@ -35,26 +35,28 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:buyer,seller'],
-            // Validasi nama toko wajib jika role adalah seller
+            // role is optional; default to 'buyer' when not provided
+            'role' => ['nullable', 'in:buyer,seller'],
+            // Validasi nama toko wajib hanya jika role adalah seller
             'store_name' => ['required_if:role,seller', 'nullable', 'string', 'max:255', 'unique:stores,name'],
         ]);
 
-        // Tentukan status awal
-        // Seller = pending (butuh approval admin)
-        // Buyer = active (langsung bisa belanja)
-        $status = $request->role === 'seller' ? 'pending' : 'active';
+        // Determine role (default to buyer) and initial status
+        $role = $request->input('role', 'buyer');
+        // Seller = pending (needs admin approval)
+        // Buyer = active (can shop immediately)
+        $status = $role === 'seller' ? 'pending' : 'active';
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'role' => $role,
             'status' => $status,
         ]);
 
-        // Jika Seller, buatkan data Toko otomatis
-        if ($request->role === 'seller') {
+        // If Seller, create Store data automatically
+        if ($role === 'seller') {
             Store::create([
                 'user_id' => $user->id,
                 'name' => $request->store_name,

@@ -4,11 +4,6 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Store Settings') }}
             </h2>
-            <div class="flex gap-4 text-sm font-medium">
-                <a href="{{ route('seller.dashboard') }}" class="text-gray-500 hover:text-[#FF6B00] transition">Overview</a>
-                <a href="{{ route('seller.products.index') }}" class="text-gray-500 hover:text-[#FF6B00] transition">My Products</a>
-                <a href="{{ route('seller.store.edit') }}" class="text-[#FF6B00] border-b-2 border-[#FF6B00]">Store Settings</a>
-            </div>
         </div>
     </x-slot>
 
@@ -29,10 +24,12 @@
                         <x-input-label :value="__('Store Logo')" class="mb-2" />
                         <div class="relative w-24 h-24 mx-auto mb-4">
                             @if($store->logo)
-                                <img src="{{ asset('storage/' . $store->logo) }}" class="w-full h-full rounded-full object-cover border-2 border-gray-200">
-                            @else
-                                <div class="w-full h-full rounded-full bg-gray-100 flex items-center justify-center text-gray-400">No Logo</div>
-                            @endif
+                                
+                                    <img src="{{ '/Storage/'. $store->logo }}" class="w-full h-full rounded-full object-cover border-2 border-gray-200" loading="lazy" alt="{{ $store->name }} logo">
+                                @else
+                                    <div class="w-full h-full rounded-full bg-gray-100"></div>
+                                @endif
+                                
                         </div>
                         <input type="file" name="logo" class="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-[#FF6B00] hover:file:bg-orange-100">
                         <x-input-error :messages="$errors->get('logo')" class="mt-2" />

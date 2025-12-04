@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('icon')->nullable(); // Ikon kategori jika perlu
             $table->timestamps();
         });
+
+        
     }
 
     public function down(): void

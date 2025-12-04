@@ -47,7 +47,11 @@
                         <x-input-label for="image" :value="__('Change Image (Optional)')" />
                         @if($product->image)
                             <div class="mb-2">
-                                <img src="{{ asset('storage/' . $product->image) }}" class="h-20 w-20 object-cover rounded">
+                                @if($product->image && \Illuminate\Support\Facades\Storage::disk('public')->exists(ltrim($product->image, '/')))
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim($product->image, '/')) }}" class="h-20 w-20 object-cover rounded" loading="lazy" alt="{{ $product->name }}">
+                                @else
+                                    <div class="h-20 w-20 bg-gray-100 rounded"></div>
+                                @endif
                             </div>
                         @endif
                         <input type="file" name="image" id="image" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-[#FF6B00] hover:file:bg-orange-100">

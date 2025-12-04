@@ -12,7 +12,7 @@ class StoreController extends Controller
     public function edit()
     {
         $store = Auth::user()->store;
-        return view('dashboard.seller.store.edit', compact('store'));
+        return view('dashboard.seller.store', compact('store'));
     }
 
     public function update(Request $request)

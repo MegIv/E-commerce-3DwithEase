@@ -12,9 +12,49 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <!-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link> -->
+
+                    {{-- LOGIC NAVIGASI BERDASARKAN ROLE --}}
+                    @if(Auth::user()->role === 'buyer') 
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                        {{-- Menu Khusus Buyer --}}
+                        <x-nav-link :href="route('shop.index')" :active="request()->routeIs('shop.index')">
+                            {{ __('Belanja') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
+                            {{ __('Keranjang') }} 
+                            {{-- Optional: Tambah badge jumlah item cart disini nanti --}}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.*')">
+                            {{ __('Pesanan Saya') }}
+                        </x-nav-link>
+                    @endif
+
+                    @if(Auth::user()->role === 'seller')
+                        {{-- Menu Khusus Seller --}}
+                        <x-nav-link :href="route('seller.dashboard')" :active="request()->routeIs('seller.dashboard')">
+                            {{ __('Toko Saya') }}
+                        </x-nav-link>
+
+                        <!-- <x-nav-link href="{{ route('seller.dashboard') }}" class="text-[#FF6B00] border-b-2 border-[#FF6B00]">Overview</x-nav-link> -->
+                        <x-nav-link href="{{ route('seller.products.index') }}" class="text-gray-500 hover:text-[#FF6B00] transition">My Products</x-nav-link>
+                        <x-nav-link href="{{ route('seller.orders.index') }}" class="text-x-nav-link -500 hover:text-[#FF6B00] transition">Orders</x-nav-link>
+                        <x-nav-link href="{{ route('seller.store.edit') }}" class="text-gray-500 hoverx-nav-link text-[#FF6B00] transition">Store Settings</x-nav-link>
+                        {{-- Link ke manajemen produk/order seller bisa ditambah disini --}}
+                    @endif
+
+                    @if(Auth::user()->role === 'admin')
+                        {{-- Menu Khusus Admin --}}
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                            {{ __('Admin Panel') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 

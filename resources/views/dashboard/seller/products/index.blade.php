@@ -4,11 +4,11 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('My Products') }}
             </h2>
-            <div class="flex gap-4 text-sm font-medium">
+            <!-- <div class="flex gap-4 text-sm font-medium">
                 <a href="{{ route('seller.dashboard') }}" class="text-gray-500 hover:text-[#FF6B00] transition">Overview</a>
                 <a href="{{ route('seller.products.index') }}" class="text-[#FF6B00] border-b-2 border-[#FF6B00]">My Products</a>
                 <a href="{{ route('seller.store.edit') }}" class="text-gray-500 hover:text-[#FF6B00] transition">Store Settings</a>
-            </div>
+            </div> -->
         </div>
     </x-slot>
 
@@ -43,14 +43,16 @@
                                 <tr class="border-b hover:bg-gray-50">
                                     <td class="px-4 py-3">
                                         @if($product->image)
-                                            <img src="{{ asset('storage/' . $product->image) }}" class="w-12 h-12 object-cover rounded">
-                                        @else
-                                            <div class="w-12 h-12 bg-gray-100 rounded flex items-center justify-center text-xs">No Img</div>
-                                        @endif
+                                                <img src="{{ '/Storage/'. $product->image }}" class="w-12 h-12 object-cover rounded" loading="lazy" alt="{{ $product->name }}">
+                                            @else
+                                                <div class="w-12 h-12 bg-gray-100 rounded"></div>
+                                            @endif
+                                            <!-- <div class="w-12 h-12 bg-gray-100 rounded flex items-center justify-center text-xs">No Img</div> -->
+                                        
                                     </td>
                                     <td class="px-4 py-3 font-medium text-gray-900">{{ $product->name }}</td>
                                     <td class="px-4 py-3">{{ $product->category->name }}</td>
-                                    <td class="px-4 py-3 font-mono text-[#FF6B00]">${{ number_format($product->price, 2) }}</td>
+                                    <td class="px-4 py-3 font-mono text-[#FF6B00]">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
                                     <td class="px-4 py-3">{{ $product->stock }}</td>
                                     <td class="px-4 py-3 text-right flex justify-end gap-2">
                                         <a href="{{ route('seller.products.edit', $product->id) }}" class="text-blue-600 hover:underline">Edit</a>
