@@ -23,7 +23,8 @@
 
     <nav class="w-full py-6 px-4 sm:px-8 flex justify-between items-center border-b border-gray-100">
         <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white font-bold">3D</div>
+            <!-- <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white font-bold">3D</div> -->
+            <img src="{{ asset('images/logoHead.png') }}" alt="Logo 3DwithEase" class="h-8 w-auto">
             <span class="text-xl font-bold tracking-tight">3DwithEase</span>
         </div>
 
